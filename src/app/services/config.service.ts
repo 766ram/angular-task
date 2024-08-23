@@ -11,29 +11,21 @@ export class ConfigService {
 
   constructor(private http: HttpClient) {}
 
-  load(defaults?: Config): Promise<Config> {
+  async load(defaults?: Config): Promise<Config> {
     if (environment.loginenable) {
       console.log('ConfigService: Loading configuration...');
     }
 
-    return new Promise<Config>(resolve => {
-      this.http.get<Config>('./assets/config.json').subscribe(
-        response => {
-          if (environment.loginenable) {
-            console.log('ConfigService: Configuration loaded from server:', response);
-          }
-          this.data = Object.assign({}, defaults || {}, response || {});
-          resolve(this.data);
-        },
-        error => {
-          if (environment.loginenable) {
-            console.error('ConfigService: Error loading configuration:', error);
-          }
-          console.log('ConfigService: Using default configuration');
-          this.data = Object.assign({}, defaults || {});
-          resolve(this.data);
-        }
-      );
-    });
+    try {
+      const response = await this.http.get<Config>('./assets/config.json').toPromise();
+      this.data = Object.assign({}, defaults || {}, response || {});
+      console.log('ConfigService: Configuration loaded from server:', this.data);
+      return this.data;
+    } catch (error) {
+      console.error('ConfigService: Error loading configuration:', error);
+      console.log('ConfigService: Using default configuration');
+      this.data = Object.assign({}, defaults || {});
+      return this.data;
+    }
   }
 }

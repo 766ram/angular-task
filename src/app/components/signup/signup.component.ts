@@ -3,7 +3,6 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import ValidateForm from '../../helpers/validateform';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
-import { NgToastService } from 'ng-angular-popup';
 
 @Component({
   selector: 'app-signup',
@@ -16,7 +15,7 @@ export class SignupComponent implements OnInit {
   eyeicon: string = 'fa fa-eye-slash';
   signupform!: FormGroup;
 
-  constructor(private fb: FormBuilder, private auth: AuthService, private router: Router, private toast: NgToastService) {}
+  constructor(private fb: FormBuilder, private auth: AuthService, private router: Router) {}
 
   ngOnInit(): void {
     this.signupform = this.fb.group({
@@ -39,7 +38,7 @@ export class SignupComponent implements OnInit {
       // Sending to backend service
       this.auth.signUp(this.signupform.value).subscribe({
         next: (res => {
-          this.toast.success("SUCCESS", res.message, 5000);  
+          // this.toast.success("SUCCESS", res.message, 5000);
           console.log(res.message);
           this.signupform.reset();
           this.router.navigate(['login']);
@@ -49,10 +48,10 @@ export class SignupComponent implements OnInit {
           alert(err?.error.message)
         })
       });
-    } 
-    else { 
+    }
+    else {
       ValidateForm.validatefields(this.signupform);
-      this.toast.warning("Error", "Your Form is Invalid!", 5000);         
+      // this.toast.warning("Error", "Your Form is Invalid!", 5000);
     }
   }
 }

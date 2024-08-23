@@ -8,15 +8,13 @@
       "schematics": {
         "@schematics/angular:component": {
           "style": "scss",
-          "skipTests": true,
-          "standalone": false
+          "skipTests": true
         },
         "@schematics/angular:class": {
           "skipTests": true
         },
         "@schematics/angular:directive": {
-          "skipTests": true,
-          "standalone": false
+          "skipTests": true
         },
         "@schematics/angular:guard": {
           "skipTests": true
@@ -25,8 +23,7 @@
           "skipTests": true
         },
         "@schematics/angular:pipe": {
-          "skipTests": true,
-          "standalone": false
+          "skipTests": true
         },
         "@schematics/angular:resolver": {
           "skipTests": true
@@ -45,19 +42,27 @@
             "outputPath": "dist/Task",
             "index": "src/index.html",
             "main": "src/main.ts",
+            "aot": true,
             "polyfills": [
               "zone.js"
             ],
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
             "assets": [
+              "src/favicon.ico",
               "src/assets"
             ],
             "styles": [
               "src/dx-styles.scss",
               "src/styles.css"
             ],
-            "scripts": []
+            "scripts": [],
+            "allowedCommonJsDependencies": [
+              "devextreme-quill",
+              "jszip",
+              "devexpress-diagram",
+              "devexpress-gantt"
+           ]
           },
           "configurations": {
             "production": {
@@ -67,6 +72,14 @@
                   "with": "src/environments/environment.prod.ts"
                 }
               ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
               "budgets": [
                 {
                   "type": "initial",
@@ -78,10 +91,9 @@
                   "maximumWarning": "2kB",
                   "maximumError": "4kB"
                 }
-              ],
-              "outputHashing": "all"
+              ]
             },
-            "development": {  
+            "development": {
               "optimization": false,
               "outputHashing": "none",
               "sourceMap": true,

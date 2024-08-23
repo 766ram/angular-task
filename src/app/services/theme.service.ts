@@ -18,7 +18,7 @@ export class ThemeService {
   private themeMarker = 'theme-';
 
   currentTheme:any='dark';//: Theme = window.localStorage[this.storageKey] //|| getNextTheme();
-  
+
 
   public isDark = new BehaviorSubject<boolean>(this.currentTheme === 'dark');
 
@@ -29,11 +29,11 @@ export class ThemeService {
   }
 
   setAppTheme(theme = this.currentTheme) {
-    this.getThemeStyleSheets().forEach((styleSheet) => {
-      styleSheet.disabled = !styleSheet?.href?.includes(`${this.themeMarker}${theme}`);
-    });
+    // this.getThemeStyleSheets().forEach((styleSheet) => {
+    //   styleSheet.disabled = !styleSheet?.href?.includes(`${this.themeMarker}${theme}`);
+    // });
 
-    this.currentTheme = theme;
+    // this.currentTheme = theme;
     // this.isDark.next(this.currentTheme === 'dark');
     themes.current('generic.light');
     // const regexTheme = new RegExp(`\\.(${themes.join('|')})`, 'g');

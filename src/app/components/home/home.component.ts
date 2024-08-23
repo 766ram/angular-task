@@ -18,18 +18,18 @@ export class HomeComponent implements OnInit, OnDestroy {
   secondAreaSize = 50;
   firstVerticalAreaSize = 50;
   secondVerticalAreaSize = 50;
-  private subscriptions: Subscription[] = []; 
+  private subscriptions: Subscription[] = [];
   isLocked = false;
   username: string = '';
 
   constructor(private layoutService: LayoutService, private userStore: UserStoreService) {}
-  
+
   ngOnInit(): void {
     console.log("ngOnInit HomeComponent");
-    
-    const usersubsc = this.userStore.getUsername().subscribe(username => { 
+
+    const usersubsc = this.userStore.getUsername().subscribe(username => {
       this.username = username;
-      this.loadLayoutSettings(); 
+      this.loadLayoutSettings();
     });
     this.subscriptions.push(usersubsc)
   }
@@ -77,7 +77,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   loadLayoutSettings(): void {
     const layoutSettings = localStorage.getItem('layoutSettings');
     if (layoutSettings) {
-      const parsedLayout = JSON.parse(layoutSettings); 
+      const parsedLayout = JSON.parse(layoutSettings);
       this.firstAreaSize = parsedLayout.firstAreaSize;
       this.secondAreaSize = parsedLayout.secondAreaSize;
       this.firstVerticalAreaSize = parsedLayout.firstVerticalAreaSize;

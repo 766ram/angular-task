@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, TransferState } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -9,7 +9,6 @@ import { FormsModule } from '@angular/forms';
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {  HeaderModule } from './components/header/header.component';
-import { NgToastModule } from 'ng-angular-popup';
 import { ReactiveFormsModule } from '@angular/forms';
 import { AuthService } from './services/auth.service';
 import { DxToolbarModule, DxDrawerModule, DxAccordionModule, DxSliderModule } from 'devextreme-angular';
@@ -28,25 +27,20 @@ import { ProfileModule } from './components/profile/profile.module';
 import { DxDataGridModule } from 'devextreme-angular';
 import { ThemeService } from './services/theme.service';
 
-export function setupAppConfigServiceFactory(
-  service: ConfigService
-): Function {
-  return () => service.load();
-}
+
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     SignupComponent,
     ResetPasswordComponent,
-    
+
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
     ReactiveFormsModule,
-    NgToastModule,
     BrowserAnimationsModule,
     DxDrawerModule,
     DxToolbarModule,
@@ -65,19 +59,20 @@ export function setupAppConfigServiceFactory(
     ProfileModule,
   DxDataGridModule,
   DxButtonModule,
-  
+
   ],
 
-  providers: [{
-    provide: APP_INITIALIZER,
-    useFactory: setupAppConfigServiceFactory,
-    deps: [
-        ConfigService
-    ],
-    multi: true
+  providers: [
+{
+  provide: APP_INITIALIZER,
+  useFactory: (appConfig: ConfigService) => {
+    return () => appConfig.load();
+  },
+  deps: [ConfigService],
+  multi: true,
 },
     provideHttpClient(withInterceptorsFromDi()),
-    AuthService, ScreenService, ThemeService
+    AuthService, ScreenService, ThemeService,  TransferState
   ],
   bootstrap: [AppComponent]
 })

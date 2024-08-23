@@ -14,7 +14,7 @@ import { ThemeService } from './services/theme.service';
 export class AppComponent implements OnInit {
   title?:string;
   showNavbar = false;
- 
+
   @HostBinding('class') get getClass() {
     return Object.keys(this.screen.sizes).filter(cl => this.screen.sizes[cl]).join(' ');
   }
@@ -26,8 +26,8 @@ export class AppComponent implements OnInit {
     private configService: ConfigService,
     private themeService: ThemeService,
 
-  ) { 
-    themeService.setAppTheme();
+  ) {
+    this.themeService.setAppTheme();
 
   }
 
@@ -36,7 +36,6 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
-    
     this.configService.load().then(config => {
       this.title = config.title;
       console.log('App title:', this.title);
@@ -48,5 +47,5 @@ export class AppComponent implements OnInit {
       }
     });
   }
-  
+
 }
